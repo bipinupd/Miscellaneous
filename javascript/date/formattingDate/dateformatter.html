@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+  var getFormattedDate = function(receiveddate){
+  var year = jQuery.datepicker.formatDate("yy", new Date(receiveddate));
+	var month = jQuery.datepicker.formatDate("M", new Date(receiveddate));
+  var day = jQuery.datepicker.formatDate("dd",  new Date(receiveddate));
+	if(day.charAt(0) == '0')
+	   day=day.replace('0','');
+	newdate=month + " " +day + getSuffix(day)+ ", " + year;
+  newdate = newdate + " " + receiveddate.substring(11,16);
+	return newdate;
+  };
+  
+  var  getSuffix=  function(day) {
+      if(day>3 && day<21) return 'th'; 
+      switch (day % 10) {
+            case 1:  return "st";
+            case 2:  return "nd";
+            case 3:  return "rd";
+            default: return "th";
+        }
+    };
+</script>
+<body>
+<!-- Deafault Date -->
+<p id="demo"></p>
+
+<!-- Modified Date -->
+Modified Date (2015/05/07 15:01:03 +0000) 
+
+<p id="demop2"></p>
+
+<script>
+document.getElementById("demo").innerHTML = Date();
+document.getElementById("demop2").innerHTML = getFormattedDate("2015/05/07 15:01:03 +0000");
+</script>
+
+</body>
+</html>
