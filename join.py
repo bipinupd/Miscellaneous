@@ -24,7 +24,8 @@ def mapper(record):
 	
 
 def reducer(key, list_of_values):
-    mr.emit((key, list_of_values))
+   if len(list_of_values) == 2:
+      mr.emit((key, list_of_values[0] + "," + list_of_values[1]))
 
 # Do not modify below this line
 # =============================
