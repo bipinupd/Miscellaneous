@@ -15,20 +15,28 @@ def mapper(record):
     # value: document contents
     name = record[0]
     key_id = record[1]
-    output = ""
-    for rec in record:
-	output = output + rec + ","
-    output = output[0:-1]
-    mr.emit_intermediate(key_id, output)
-	
-	
+    mr.emit_intermediate(key_id, record)
+
+
 
 def reducer(key, list_of_values):
-   if len(list_of_values) == 2:
-      mr.emit((key, list_of_values[0] + "," + list_of_values[1]))
+
+ counter=0
+ length=len(list_of_values)
+ values=[]
+ result ={}
+ for i in range(1,length):
+    values+=list_of_values[0]#order
+    values+=list_of_values[i]#i-th join
+    result[counter]=values#temporarily store the full joined row
+    values=[]
+    mr.emit(result[counter])#print it and move to the next one
+    counter+=1
+
 
 # Do not modify below this line
 # =============================
 if __name__ == '__main__':
   inputdata = open(sys.argv[1])
   mr.execute(inputdata, mapper, reducer)
+
